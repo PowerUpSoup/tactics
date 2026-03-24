@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://7gayikv5cv87"]
+
+[ext_resource type="Script" uid="uid://b32h4to70p4j4" path="res://Scripts/Controller/BattleController.gd" id="1_1samx"]
+[ext_resource type="Script" uid="uid://bmd0pfut1nswg" path="res://Scripts/Controller/InputController.gd" id="2_p46lj"]
+[ext_resource type="Script" uid="uid://dyent3nfbfk6o" path="res://Scripts/Controller/CameraController.gd" id="3_8teo4"]
+[ext_resource type="Script" uid="uid://b7ahupjj2c3mj" path="res://Scripts/Pre-Production/BoardCreator.gd" id="3_p46lj"]
+[ext_resource type="Script" uid="uid://tebkgytbghqh" path="res://Scripts/Test/test.gd" id="4_c5ef4"]
+
+[node name="Battle" type="Node2D"]
+
+[node name="BattleController" type="Node" parent="." node_paths=PackedStringArray("board", "inputController", "cameraController")]
+script = ExtResource("1_1samx")
+board = NodePath("Board")
+inputController = NodePath("Input Controller")
+cameraController = NodePath("Camera Controller")
+
+[node name="Input Controller" type="Node" parent="BattleController"]
+script = ExtResource("2_p46lj")
+
+[node name="Board" type="Node3D" parent="BattleController"]
+script = ExtResource("3_p46lj")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="BattleController"]
+
+[node name="Camera Controller" type="Node3D" parent="BattleController"]
+script = ExtResource("3_8teo4")
+
+[node name="Heading" type="Node3D" parent="BattleController/Camera Controller"]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 0, 0)
+
+[node name="Pitch" type="Node3D" parent="BattleController/Camera Controller/Heading"]
+transform = Transform3D(1, 0, 0, 0, 0.81915206, 0.57357645, 0, -0.57357645, 0.81915206, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="BattleController/Camera Controller/Heading/Pitch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+projection = 1
+current = true
+size = 10.0
+
+[node name="Test" type="Node" parent="BattleController"]
+script = ExtResource("4_c5ef4")
