@@ -28,7 +28,7 @@ func _ready():
 	_random.randomize()
 
 
-func _process(delta):
+func _process(_delta):
 	if pos != _oldPos:
 		_oldPos = pos
 		_UpdateMarker()
@@ -232,7 +232,7 @@ func LoadMap(saveFile):
 		return # Error! We don't have a save to load.
 		
 	var save_game = FileAccess.open(saveFile, FileAccess.READ)
-	var version = save_game.get_8()
+	var _version = save_game.get_8()
 	var size = save_game.get_16()
 	
 	for i in range(size):

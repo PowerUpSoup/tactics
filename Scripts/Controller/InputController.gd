@@ -13,7 +13,9 @@ var _ver:Repeater = Repeater.new('move_up', 'move_down')
 var _camZoomUp:ButtonRepeater = ButtonRepeater.new('zoom_up')
 var _camZoomDown:ButtonRepeater = ButtonRepeater.new('zoom_down')
 
-func _process(delta):
+var _lastMouse:Vector2
+
+func _process(_delta):
 	var x = _hor.Update()
 	var y = _ver.Update()
 	
@@ -26,3 +28,28 @@ func _process(delta):
 	
 	if Input.is_action_just_pressed('quit'):
 		quitEvent.emit()
+	
+	if _camZoomUp.Update():
+		cameraZoomEvent.emit(-1)
+	
+	if _camZoomDown.Update():
+		cameraZoomEvent.emit(1)
+	
+	var camX = Input.get_axis('camera_right','camera_left')
+	var camY = Input.get_axis('camera_down', 'camera_up')
+	
+	if camX !=0 || camY !=0:
+		cameraRotateEvent.emit(Vector2(camX,camY))
+	
+	if Input.is_action_just_pressed('camera_activate'):
+		_lastMouse = get_viewport().get_mouse_position()
+		
+	if Input.is_action_pressed('camera_activate'):
+		var currentMouse:Vector2 = get_viewport().get_mouse_position()
+		
+		if _lastMouse != currentMouse:
+			var mouseVector:Vector2 = _lastMouse - currentMouse
+			_lastMouse = currentMouse
+			var vectorLimit = 10
+			var newVector:Vector2 = mouseVector/vectorLimit
+			cameraRotateEvent.emit(newVector)

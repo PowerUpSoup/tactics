@@ -9,6 +9,9 @@ func _ready():
 	_owner.board.LoadMap(saveFile)
 	
 	AddListeners()
+	
+	_owner.cameraController.setFollow(_owner.board.marker)
+
 
 func _exit_tree():
 	RemoveListeners()
@@ -24,7 +27,8 @@ func RemoveListeners():
 	_owner.inputController.quitEvent.connect(OnQuit)
 
 func OnMove(e:Vector2i):
-	_owner.board.pos += e
+	var rotatedPoint = _owner.cameraController.AdjustedMovement(e)
+	_owner.board.pos += rotatedPoint
 
 func OnFire(e:int):
 	print("Fire: " + str(e))
